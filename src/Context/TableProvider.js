@@ -9,11 +9,6 @@ export default function TableProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filter, setFilter] = useState('');
   const [filteredPlanets, setFilteredPlanets] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState({
-    column: 'population',
-    comparison: 'maior que',
-    number: '0',
-  });
   const [options, setOptions] = useState([
     'population',
     'orbital_period',
@@ -21,6 +16,11 @@ export default function TableProvider({ children }) {
     'rotation_period',
     'surface_water',
   ]);
+  const [globalFilter, setGlobalFilter] = useState({
+    column: options[0],
+    comparison: 'maior que',
+    number: '0',
+  });
   const { makeFetch, isLoading, errors } = useFetch();
 
   console.log(setOptions);
@@ -60,19 +60,26 @@ export default function TableProvider({ children }) {
     filteredPlanets.filter((planet) => +planet[column] === +number)
   );
 
+  const excludeColumn = () => {
+    const filterOptions = options.filter((option) => option !== column);
+    setOptions(filterOptions);
+    setGlobalFilter({ column: filterOptions[0] });
+  };
+
   const buttonClick = () => {
     if (number) {
-      // const filterOptions = options.filter((option) => option !== column);
-      // setOptions(filterOptions);
       switch (comparison) {
       case 'maior que':
         setFilteredPlanets(filterMoreThan);
+        excludeColumn();
         break;
       case 'menor que':
         setFilteredPlanets(filterLessThan);
+        excludeColumn();
         break;
       case 'igual a':
         setFilteredPlanets(filterEqualTo);
+        excludeColumn();
         break;
       default:
         break;
