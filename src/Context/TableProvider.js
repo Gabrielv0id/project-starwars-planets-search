@@ -12,7 +12,7 @@ export default function TableProvider({ children }) {
   const [globalFilter, setGlobalFilter] = useState({
     column: 'population',
     comparison: 'maior que',
-    number: 0,
+    number: '0',
   });
   const [options, setOptions] = useState([
     'population',
@@ -22,6 +22,8 @@ export default function TableProvider({ children }) {
     'surface_water',
   ]);
   const { makeFetch, isLoading, errors } = useFetch();
+
+  console.log(setOptions);
 
   useEffect(() => {
     const planetsList = async () => {
@@ -60,15 +62,14 @@ export default function TableProvider({ children }) {
 
   const buttonClick = () => {
     if (number) {
-      const filterOptions = options.filter((option) => option !== column);
-      setOptions(filterOptions);
+      // const filterOptions = options.filter((option) => option !== column);
+      // setOptions(filterOptions);
       switch (comparison) {
       case 'maior que':
         setFilteredPlanets(filterMoreThan);
         break;
       case 'menor que':
         setFilteredPlanets(filterLessThan);
-        console.log(filterLessThan);
         break;
       case 'igual a':
         setFilteredPlanets(filterEqualTo);
@@ -89,7 +90,7 @@ export default function TableProvider({ children }) {
     setGlobalFilter,
     buttonClick,
     options,
-  }), [filteredPlanets, isLoading, errors, filter, globalFilter, buttonClick, options]);
+  }), [filteredPlanets, isLoading, errors, filter, globalFilter, options]);
   return (
     <TableContext.Provider value={ value }>
       {children}
