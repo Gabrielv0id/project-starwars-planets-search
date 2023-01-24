@@ -63,14 +63,14 @@ export default function TableProvider({ children }) {
 
   const filterLessThan = (columns, value) => {
     if (columns && value) {
-      return planets.filter((planet) => +planet[columns] > +value);
+      return planets.filter((planet) => +planet[columns] < +value);
     }
     return filteredPlanets.filter((planet) => +planet[column] < +number);
   };
 
   const filterEqualTo = (columns, value) => {
     if (columns && value) {
-      return planets.filter((planet) => +planet[columns] > +value);
+      return planets.filter((planet) => +planet[columns] === +value);
     }
     return filteredPlanets.filter((planet) => +planet[column] === +number);
   };

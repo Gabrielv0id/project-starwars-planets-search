@@ -16,8 +16,8 @@ export default function Filters() {
     setFilters(removeFilter);
     setOptions([...options, object.column]);
     removeFilter
-      .forEach(({ columns, comparison, number }) => (
-        filterPlanets(comparison, number, columns)));
+      .forEach(({ column, comparison, number }) => (
+        filterPlanets(comparison, number, column)));
   };
 
   return (
