@@ -10,6 +10,9 @@ export default function GlobalFilter() {
     setFilters,
     filters,
     excludeColumn,
+    orders,
+    sortChange,
+    sortButtonClick,
   } = useContext(TableContext);
 
   const { column, comparison, number } = globalFilter;
@@ -73,6 +76,49 @@ export default function GlobalFilter() {
           data-testid="button-filter"
         >
           FILTRAR
+        </button>
+        <select
+          name="column"
+          data-testid="column-sort"
+          value={ orders.column }
+          onChange={ sortChange }
+        >
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
+        </select>
+        <label htmlFor="ASC">
+          <input
+            type="radio"
+            name="sort"
+            id="ASC"
+            data-testid="column-sort-input-asc"
+            value="ASC"
+            checked={ orders.order.sort === 'ASC' }
+            onChange={ sortChange }
+          />
+          Ascendente
+        </label>
+        <label htmlFor="DESC">
+          <input
+            type="radio"
+            name="sort"
+            id="DESC"
+            data-testid="column-sort-input-desc"
+            value="DESC"
+            checked={ orders.order.sort === 'DESC' }
+            onChange={ sortChange }
+          />
+          Descendente
+        </label>
+        <button
+          data-testid="column-sort-button"
+          type="button"
+          onClick={ sortButtonClick }
+        >
+          Ordenar
         </button>
       </form>
     </div>

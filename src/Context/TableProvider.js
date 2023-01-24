@@ -23,6 +23,12 @@ export default function TableProvider({ children }) {
     number: '0',
   });
   const [filters, setFilters] = useState([]);
+  const [orders, setOrder] = useState({
+    order: {
+      column: 'population',
+      sort: 'ASC',
+    },
+  });
   const { makeFetch, isLoading, errors } = useFetch();
 
   useEffect(() => {
@@ -105,6 +111,40 @@ export default function TableProvider({ children }) {
     }
   }, [filters]);
 
+  const sortChange = ({ target: { name, value } }) => {
+    setOrder({
+      order: {
+        ...orders.order,
+        [name]: value,
+      },
+    });
+  };
+
+  const sortButtonClick = () => {
+    const { order } = orders;
+    const sortedPlanets = filteredPlanets.sort((a, b) => {
+      const valueAfter = +a[order.column];
+      const valueBefore = +b[order.column];
+      const after = 1;
+      const before = -1;
+      if (a[order.column] === 'unknown') {
+        return after;
+      }
+      if (b[order.column] === 'unknown') {
+        return before;
+      }
+      if (order.sort === 'ASC') return valueAfter - valueBefore;
+      return valueBefore - valueAfter;
+    });
+    setOrder({
+      order: {
+        ...orders.order,
+        sort: order.sort,
+      },
+    });
+    setFilteredPlanets(sortedPlanets);
+  };
+
   const value = useMemo(() => ({
     isLoading,
     errors,
@@ -120,7 +160,11 @@ export default function TableProvider({ children }) {
     setOptions,
     excludeColumn,
     removeAllFilters,
-  }), [filteredPlanets, isLoading, errors, filter, globalFilter, options, filters]);
+    orders,
+    sortChange,
+    sortButtonClick,
+  }), [
+    filteredPlanets, isLoading, errors, filter, globalFilter, options, filters, orders]);
   return (
     <TableContext.Provider value={ value }>
       {children}

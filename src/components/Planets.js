@@ -7,7 +7,7 @@ export default function Planets(props) {
   return (
     <tr>
       {Object.keys(value).map((key) => (
-        <td key={ value[key] }>
+        <td key={ value[key] } data-testid={ key === 'name' ? 'planet-name' : '' }>
           { value[key] }
         </td>
       ))}
