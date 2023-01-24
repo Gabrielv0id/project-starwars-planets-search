@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import './App.css';
+import Filters from './components/Filters';
 import GlobalFilter from './components/GlobalFilter';
 import NameSearch from './components/NameSearch';
 import Table from './components/Table';
@@ -12,6 +13,7 @@ function App() {
       <TableProvider>
         <NameSearch />
         <GlobalFilter />
+        <Filters />
         <Table />
       </TableProvider>
     </div>

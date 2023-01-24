@@ -5,65 +5,76 @@ export default function GlobalFilter() {
   const {
     globalFilter,
     setGlobalFilter,
-    buttonClick,
+    filterPlanets,
     options,
+    setFilters,
+    filters,
+    excludeColumn,
   } = useContext(TableContext);
 
+  const { column, comparison, number } = globalFilter;
+
   return (
-    <form>
-      <label htmlFor="colum">
-        <span>Coluna</span>
-        <select
-          name="column"
-          id="colum"
-          data-testid="column-filter"
-          value={ globalFilter.column }
+    <div>
+      <form>
+        <label htmlFor="colum">
+          <span>Coluna</span>
+          <select
+            name="column"
+            id="colum"
+            data-testid="column-filter"
+            value={ column }
+            onChange={
+              ({ target: { name, value } }) => (
+                setGlobalFilter((prevState) => ({ ...prevState, [name]: value })))
+            }
+          >
+            {options.map((key) => (
+              <option key={ key } value={ key }>
+                {key}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="comparison">
+          <span>Operador</span>
+          <select
+            name="comparison"
+            id="comparison"
+            data-testid="comparison-filter"
+            value={ comparison }
+            onChange={
+              ({ target: { name, value } }) => (
+                setGlobalFilter((prevState) => ({ ...prevState, [name]: value })))
+            }
+          >
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
+          </select>
+        </label>
+        <input
+          type="number"
+          name="number"
+          data-testid="value-filter"
+          value={ number }
           onChange={
             ({ target: { name, value } }) => (
               setGlobalFilter((prevState) => ({ ...prevState, [name]: value })))
           }
+        />
+        <button
+          type="button"
+          onClick={ () => {
+            filterPlanets(comparison, number);
+            setFilters([...filters, globalFilter]);
+            excludeColumn();
+          } }
+          data-testid="button-filter"
         >
-          {options.map((key) => (
-            <option key={ key } value={ key }>
-              {key}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label htmlFor="comparison">
-        <span>Operador</span>
-        <select
-          name="comparison"
-          id="comparison"
-          data-testid="comparison-filter"
-          value={ globalFilter.comparison }
-          onChange={
-            ({ target: { name, value } }) => (
-              setGlobalFilter((prevState) => ({ ...prevState, [name]: value })))
-          }
-        >
-          <option value="maior que">maior que</option>
-          <option value="menor que">menor que</option>
-          <option value="igual a">igual a</option>
-        </select>
-      </label>
-      <input
-        type="number"
-        name="number"
-        data-testid="value-filter"
-        value={ globalFilter.number }
-        onChange={
-          ({ target: { name, value } }) => (
-            setGlobalFilter((prevState) => ({ ...prevState, [name]: value })))
-        }
-      />
-      <button
-        type="button"
-        onClick={ buttonClick }
-        data-testid="button-filter"
-      >
-        FILTRAR
-      </button>
-    </form>
+          FILTRAR
+        </button>
+      </form>
+    </div>
   );
 }
